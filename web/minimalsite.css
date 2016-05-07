@@ -1,0 +1,419 @@
+* {margin:0;padding:0;list-style:none;border:0 none;}
+
+
+@font-face {
+    font-family: averia;
+    src: url(font/AveriaSerif-Regular.ttf);
+	}
+
+@font-face {
+    font-family : caviar;
+    src: url(font/CaviarDreams.ttf);
+}
+
+html {
+    background-color: lightgrey;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: averia;
+}
+
+body {
+    background-color: lightgrey;
+    font-family: averia;
+}
+
+header, #menu, main, footer {
+    padding : 1%;
+}
+
+header, #menu, footer {
+    font-family: caviar;
+    letter-spacing: .04em;
+}
+
+#menu, footer {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+header {
+    font-size : 1.5em;
+    text-align: center;
+    background-color: #724A00;
+    color: white;
+}
+
+header p {
+    font-size: 2em;
+}
+
+/*MENU*/
+#menu {
+    width: 100%;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#menu ul li {
+    display : inline;
+    list-style-type: none;
+    margin-left: .5%;
+    margin-right: .5%;
+}
+
+#menu a {
+    padding: 1% 5px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+#menu a:hover {
+    background-color: #724A00;
+    color: white;
+    transition: background-color 0.2s;
+}
+/*MENU*/
+
+/*MAIN*/
+main {
+    width: 100%;
+    font-size : 1.1em;
+    text-align: center;
+    min-height: 500px;
+    padding: 0;
+}
+
+main .retour {
+    background-color: #d4c8b2;
+    width: 50%;
+    margin: auto;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 2%;
+    border-radius: 5px;
+}
+/*TABLEAU DES FORMULAIRES*/
+main table {
+    margin : auto;
+    width: 100%;
+}
+/*FORMULAIRE DE MISE EN LIGNE / INSCRIPTION*/
+main .formulaire {
+    width: 60%;
+    text-align: left;
+    margin: auto;
+    border-radius: 7px;
+    border: 4px #724A00 solid;
+    padding: 5px;
+}
+
+main .formulaire tr td:first-child {
+    text-align: right;
+}
+
+main .submit {
+    font-family: Helvetica;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    margin: auto;
+    width : 200px;
+    display: block;
+    border: 2px #724A00 solid;
+    margin-top: 5px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 0.8em;;
+    font-family: helvetica;
+}
+
+main .formulaire .champ {
+    text-align: center;
+}
+
+main .formulaire #tabletag {
+    vertical-align: top;
+}
+input, textarea, main a, .submit {
+    width : 200px;
+    margin : 0;
+    background-color: lightgray;
+    border: 1px #724A00 solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 1%;
+}
+
+main a {
+    padding: 0;
+    margin: 0;
+}
+
+input[type=checkbox] {
+    width : 30px;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: grey;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: grey;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: black;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: grey;
+}
+
+
+/*GALERIE PHOTO */
+main .gallerie {
+    font-family: ;
+    background-color: #d4c8b2;
+    border-radius: 3px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5%;
+    max-height: 1000px;
+    overflow: hidden;
+    box-shadow: 3px 4px 10px -3px rgba(0, 0, 0, .8);
+
+}
+
+main .galphoto {
+    margin: auto;
+    width: 95%;
+}
+
+main .galphoto img {
+    max-width: 100%;
+    max-height: 750px;
+    margin-top: 2.5%;
+    margin-bottom: 1%;
+    box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.7);
+}
+
+main .galtitre {
+    font-size: 1.3em;
+    text-align: left;
+    border-bottom: 1px grey solid;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+main .galdesc {
+    font-style: italic;
+    text-align: left;
+    margin-top: 1%;
+    margin-left: 5%;
+    color: #363636;
+}
+
+main .galtagcontainer {
+    font-size: 0.8em;
+    width: 90%;
+    padding: 5px;
+    text-align: left;
+    margin-left : 5%;
+}
+
+main .galtag {
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+main #galinfos {
+    font-style: italic;
+    text-align: right;
+    margin-right : 5%;
+    margin-bottom: 1%;
+}
+
+main .form-group ul {
+    background-color: lightgrey;
+}
+
+.vote {
+    width: 20%;
+    margin: auto;
+}
+
+.thumb > * {
+    display: inline-block;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.thumb img {
+    margin-right: 5px;
+}
+.thumbsdown:hover {
+    color: red;
+}
+
+.thumbsup:hover {
+    color: green;
+}
+
+.progress, .progresslike {
+    height: 4px;
+    border-radius: 3px;
+}
+.progress {
+    background-color: red;
+}
+
+.progresslike {
+    background-color: green;
+}
+
+/*GALLERIE PHOTO*/
+/*PAGE DE RECHERCHE*/
+
+#tablerechercher {
+    width: 60%;
+}
+
+#tablerechercher tr td {
+    text-align: left;
+}
+
+#tablerechercher .select{
+    padding: 5px;
+    border-radius: 4px;
+    background-color: lightgrey;
+    border: 1px #724A00 solid;
+}
+
+#tablerechercher tr td:first-child {
+    text-align : right;
+}
+/*PAGE DE RECHERCHE*/
+
+/*PAGE ADMIN*/
+
+main .tableadmin {
+    width: 70%;
+    margin-top: 1%;
+}
+
+main .tableadmin td {
+    border: 1px solid black;
+    height: 150px;
+}
+
+main .tableadmin .tdadmintitre {
+    width: 15%;
+}
+
+main .tableadmin .tdadminphoto {
+    width: 15%;
+}
+
+main .tableadmin .tdadminphoto img {
+    max-width: 150px;
+    max-height: 150px;
+    box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.7);
+}
+
+main .tableadmin .tdadminvote {
+    width: 20%;
+}
+
+main .tableadmin .adminvote {
+    width: 80%;
+    margin: auto;
+}
+
+main .tableadmin .adminprogress, .adminprogresslike {
+    height: 4px;
+    border-radius: 3px;
+}
+
+main .tableadmin .adminprogress {
+    background-color: red;
+}
+
+main .tableadmin .adminprogresslike {
+    background-color: green;
+}
+
+main .tableadmin .adminthumb {
+    width: 90%;
+    margin: auto;
+    margin-top: 15px;
+}
+
+main .tableadmin .adminthumbsup {
+    float: left;
+    text-align: left;
+}
+
+main .tableadmin .adminthumbsdown {
+    text-align: right;
+}
+
+main .tableadmin .tdadminemail {
+    width: 10%;
+}
+
+main .tableadmin .tdadmindate {
+    width: 15%;
+}
+
+main .tableadmin .tdadminsuppr {
+width: 12.5%;
+}
+
+main .tableadmin .tdadminbann {
+width: 12.5%;
+}
+
+main #carte {
+    margin-bottom: -1.5%;
+    height : 700px;
+}
+
+
+/*PAGE ADMIN*/
+/*FOOTER*/
+footer {
+    clear: both;
+    font-size : 0.9em;
+    text-align: center;
+    background-color: #724A00;
+    color: white;
+    margin-top: 1.5%;
+}
+
+footer ul {
+    width: 15%;
+    margin-left: 25%;
+}
+
+footer ul li {
+    text-align: left;
+}
+
+footer ul li a{
+    color: white;
+    text-decoration: none;
+}
+/*FOOTER*/

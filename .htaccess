@@ -1,0 +1,14 @@
+#Options +FollowSymlinks
+RewriteEngine on
+Options -Indexes
+
+<Files ".htaccess">
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+RewriteRule ^src/ - [R=404,L]
+RewriteRule ^web/ - [L]
+RewriteRule ^upload/ - [L]
+RewriteRule ^index.php - [L]
+RewriteRule ^(.*)$ index.php/$1 [L]
