@@ -3,11 +3,18 @@ var infoWindow = new google.maps.InfoWindow();
 var nombrepoints = 0;
 var points = new Array();
 
-function initialisation() {                								// Initialisation de la carte et mes markers
-    var centreCarte = new google.maps.LatLng(49.183333, -0.35); 		//instanciation de la carte
+function center() { // centrer la carte en fonction de points visibles
+    var bound = new google.maps.LatLngBounds();
+    for (i = 0; i < nombrepoints; i++) {
+        if(points[i].getVisible()) { bound.extend(new google.maps.LatLng(points[i].lat, points[i].lng)); }
+    }
+    bound.getCenter()
+    carte.fitBounds(bound);
+}
+
+function initialisation() {              								// Initialisation de la carte et mes markers
     var optionsCarte = {
         zoom: 8,
-        center: centreCarte,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     carte = new google.maps.Map(document.getElementById("carte"), optionsCarte);
@@ -28,44 +35,11 @@ function initialisation() {                								// Initialisation de la carte
             map: carte,
             lat : photos[i][3],
             lng : photos[i][4]
-            // categorie : photos[i][3]  A VOIR PLUS TARD POUR LES TAGS
         },infobulle);
         nombrepoints=nombrepoints+1;
     }
-
-
-
+    center();
 }
-
-function formulaire(formulaire) {	 				//permet d'ajouter un point à la suite de la validation du formulaire
-    if (formulaire.lat.value != "" && formulaire.long.value != "" && formulaire.titre.value != "" && formulaire.description.value != "") {   //vérife que le formulaire est bien rempli
-        function createMarker(options, description) {
-            var marker = new google.maps.Marker(options);
-            if(description) {
-                google.maps.event.addListener(marker, "click", function () {
-                    infoWindow.setContent(description);	//infobulle
-                    infoWindow.open(options.map, this);
-                });
-            }
-            return marker;
-        }
-        points[nombrepoints] = createMarker({
-            position: new google.maps.LatLng(formulaire.lat.value, formulaire.long.value),
-            map: carte,							//récupération des données du formulaire
-            titre: formulaire.titre.value,		//récupération des données du formulaire
-            lat : formulaire.lat.value,			//récupération des données du formulaire
-            lng : formulaire.long.value,		//récupération des données du formulaire
-            categorie : formulaire.cat.value	//récupération des données du formulaire
-        }, formulaire.description.value);		//récupération des données du formulaire
-        nombrepoints=nombrepoints+1; 				//incrémentation du nombre de points
-    }
-    document.getElementById("titre").value="";   	//remise à zéro du formulaire
-    document.getElementById("description").value="";//remise à zéro du formulaire
-    document.getElementById("lat").value="";		//remise à zéro du formulaire
-    document.getElementById("long").value="";		//remise à zéro du formulaire
-    return false;
-}
-
 
 function affCategorie() { 											//permet d'afficher les catégories
 var div = document.getElementById("categories");
@@ -84,7 +58,7 @@ else {
 
 function affMsqCategorie(indice) { 					//permet d'afficher/masquer les points d'une catégorie
 if(categories[1][indice] === true) {
-    for (i = 0; i < nombrepoints; i++) {  		//boucle tant qu'il y a des points
+    for (i = 0; i < nombrepoints; i++) {  		    //boucle tant qu'il y a des points
     if(points[i].categorie === categories[0][indice]) {
         points[i].setVisible(false);
     }
