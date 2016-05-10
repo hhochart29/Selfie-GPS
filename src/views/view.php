@@ -5,6 +5,7 @@ class View {
     protected $router;
     protected $feedback;
     protected $styleSheetURL;
+    protected $styleSheetURL2;
     protected $faviconURL;
     protected $content;
     protected $header;
@@ -27,6 +28,7 @@ class View {
             $this->unexpectedErrorPage(new Exception("Tried to render a view with a null content"));
         }
         $styleSheetURL = $this->styleSheetURL;
+        $styleSheetURL2 = $this->styleSheetURL2;
         $faviconURL = $this->faviconURL;
         $content = $this->content;
         $header = $this->header;
