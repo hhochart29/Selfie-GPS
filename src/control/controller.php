@@ -135,14 +135,11 @@ class Controller {
 
     public function map() {
         $photos = $this->bdd_photo->retrieveAll();
-        $tags = $this->bdd_tag->retrieveAll();
         $nbphotos = sizeof($photos);
-        $nbtags = sizeof($tags);
         $virgule = 1;
         $message = '
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <script type="text/javascript">
-        var nombretags = '.$nbtags.';
         var nombrephotos = '.$nbphotos.';
         var photos = new Array(';
         foreach($photos as $photo) {
@@ -153,25 +150,13 @@ class Controller {
             $virgule++;
         }
         $message .= ');
-        var tags = new Array(';
-        $virgule = 1;
-        foreach($tags as $tag) {
-            $message .= '["'.$tag->getDescription().'", true]';
-            if($virgule != $nbtags) {
-                $message .= ',';
-            }
-            $virgule++;
-        }
-        $message .= ');
         </script>
-
         <script src="'.$this->router->getURL("js/map.js").'"></script>
         <script type="text/javascript">google.maps.event.addDomListener(window, \'load\', initialisation);</script>
         <div id="carte"></div>';
         $this->view->makePage($message);
 
     }
-
 }
 
 ?>

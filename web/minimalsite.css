@@ -385,14 +385,15 @@ width: 12.5%;
 main .tableadmin .tdadminbann {
 width: 12.5%;
 }
+/*PAGE ADMIN*/
+/*CARTE*/
 
 main #carte {
     margin-bottom: -1.5%;
     height : 700px;
 }
 
-
-/*PAGE ADMIN*/
+/*CARTE*/
 /*FOOTER*/
 footer {
     clear: both;

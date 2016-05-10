@@ -11,6 +11,8 @@ define("bdd_utilisateur", "user");
 define("bdd_caracterisation", "caracterisation");
 define("bdd_tag", "tag");
 define("bdd_vote", "vote");
+date_default_timezone_set('Europe/Paris');
+
 define('TARGET', realpath('upload') . '\\'); // Repertoire cible
 define('MAX_SIZE', 2097152); // Taille max en octets du fichier
 define('WIDTH_MAX', 1920); // Largeur max de l'image en pixels
