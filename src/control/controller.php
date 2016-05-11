@@ -96,13 +96,18 @@ class Controller {
                     $pourcentagevote = 100;
                 }
                 $message .= '
-                <div class="gallerie">
+                <div id="gallerie">
+                <div class="galleriephoto">
                 <div class="galtitre">' . $photo->getTitre() . '</div>
                 <div class="galdesc">' . $photo->getDescription() . '</div>
-                <div class="galphoto"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></div>
+                <div class="galphoto">
+                    <a href="#'.$photo->getIdphoto().'" class="photosmall"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a>
+                    <a href="#_" class="lightbox" id="'.$photo->getIdphoto().'"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a></div>
                 <div class="vote">
+                <div class="votebar">
                 <div class="progress">
                 <div class="progresslike" id="b_'.$photo->getIdphoto().'" style="width:' . $pourcentagevote . '%"></div>
+                </div>
                 </div>
                 <div class="thumb">
                 <div class="thumbsup"';
@@ -117,15 +122,13 @@ class Controller {
                 $message.='"><img src="' . $this->router->getImageURL("thumb-down.png") . '"><span id="n_'.$photo->getIdphoto().'" '.(($votesingle==0 && $existant)?'style="color:red;"':null).'>' .  $votenegatif .'</span></div>
                 </div>
                 </div>
-
-
                 <div class="galtagcontainer">';
+
                 foreach ($photo->getTag() as $tag){
                     $tags = $this->bdd_tag->retrieve($tag);
-                    $message.='<div class="galtag">' . $tags->getDescription(). '</div>';
+                    $message.='<div class="galtag"><a href="'. $this->router->getRechercherURL($tags->getIdtag()) .'" class="galtaglien">' . $tags->getDescription(). '</a></div>';
                 }
-                $message.= '</div><div id="galinfos">Prise le : <b>' . $photo->getDate() . '</b> par : <b>' . $photo->getEmail() . '</b></div></div>
-                ';
+                $message.= '</div><div id="galinfos">Prise le : <b>' . $photo->getDate() . '</b> par : <b>' . $photo->getEmail() . '</b></div></div></div></div>';
             }
         } else {
             $message.= '<p class="retour">Aucune image n\'appartient à ce tag.</p>';

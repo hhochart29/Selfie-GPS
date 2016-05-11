@@ -171,6 +171,10 @@ class Router {
                 return $this->webBaseURL . "/upload/";
             }
 
+            public function getRechercherURL($idtag) {
+                return $this->baseURL . "/rechercher/" .$idtag;
+            }
+
             public function getURL($path) {
                 return $this->webBaseURL . "/web/" . $path;
             }
