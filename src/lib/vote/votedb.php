@@ -13,7 +13,6 @@ class VoteDB implements IVoteDB {
     private $retrieveSingleVoteReq;
     private $deleteVoteReq;
 
-
     public function __construct(PDO $pdo, $table) {
         $this->pdo = $pdo;
         $this->table = $table;
@@ -32,12 +31,11 @@ class VoteDB implements IVoteDB {
         $query = "SELECT * FROM `" . $this->table . "` WHERE " . $clause;
         $this->existVoteReq = $this->pdo->prepare($query);
 
-        $query = "UPDATE ".$this->table." SET vote=:vote WHERE idphoto=:idphoto AND email=:email";
+        $query = "UPDATE " . $this->table . " SET vote=:vote WHERE idphoto=:idphoto AND email=:email";
         $this->updateVoteReq = $this->pdo->prepare($query);
 
         $query = "DELETE FROM `" . $this->table . "` WHERE idphoto=:idphoto";
         $this->deleteVoteReq = $this->pdo->prepare($query);
-
     }
 
     // Create methods =======================================================================
@@ -72,7 +70,7 @@ class VoteDB implements IVoteDB {
         $this->retrieveVoteReq->execute();
         $res = array();
         while ($row = $this->retrieveVoteReq->fetch(PDO::FETCH_ASSOC))
-        $res[] = $row["vote"];
+            $res[] = $row["vote"];
         return $res;
     }
 
@@ -90,7 +88,6 @@ class VoteDB implements IVoteDB {
         $this->updateVoteReq->bindValue(":vote", $vote);
         $this->updateVoteReq->execute();
     }
-
 
     // Delete methods =======================================================================
     public function deleteTable() {

@@ -8,13 +8,7 @@ class Controller_connected extends Controller {
 
     public function mettreenligne() {
         if (isset($_POST['submit'])) {
-            if ((isset($_POST['MAX_FILE_SIZE']) && !empty($_POST['MAX_FILE_SIZE']))
-            && (isset($_FILES['fichier'])  && !empty($_FILES['fichier']['name']))
-            && (isset($_POST['titre'])  && !empty($_POST['titre']))
-            && (isset($_POST['description'])  && !empty($_POST['description']))
-            && (isset($_POST['lattitude'])  && !empty($_POST['lattitude']))
-            && (isset($_POST['longitude'])  && !empty($_POST['longitude']))
-            && (isset($_POST['tag'])  && !empty($_POST['tag']))){
+            if ((isset($_POST['MAX_FILE_SIZE']) && !empty($_POST['MAX_FILE_SIZE'])) && (isset($_FILES['fichier']) && !empty($_FILES['fichier']['name'])) && (isset($_POST['titre']) && !empty($_POST['titre'])) && (isset($_POST['description']) && !empty($_POST['description'])) && (isset($_POST['lattitude']) && !empty($_POST['lattitude'])) && (isset($_POST['longitude']) && !empty($_POST['longitude'])) && (isset($_POST['tag']) && !empty($_POST['tag']))) {
                 // Tableaux de donnees
                 $tabExt = array('jpg', 'gif', 'png', 'jpeg'); // Extensions autorisees
                 $infosImg = array();
@@ -42,7 +36,7 @@ class Controller_connected extends Controller {
                                     $photo = new Photo("", $nomImage, addslashes($_POST['lattitude']), addslashes($_POST['longitude']), addslashes($_POST['titre']), addslashes($_POST['description']), Date("Y-m-d H:i:s"), ($_SESSION['session_email']), 0);
                                     $this->bdd_photo->create($photo);
                                     $idphoto = $this->bdd_photo->retrieveid($_SESSION['session_email']);
-                                    foreach ($_POST['tag'] as $tag_post){
+                                    foreach ($_POST['tag'] as $tag_post) {
                                         $this->bdd_photo->create2tag($idphoto, $tag_post);
                                     }
                                     $retour = 'Upload réussi !';
@@ -98,7 +92,7 @@ class Controller_connected extends Controller {
                 <td id="tabletag">Tags : </td>
             <td>
 
-        <link rel="stylesheet" href="' . $this->router->getURL("multiple-select.css"). '" />
+        <link rel="stylesheet" href="' . $this->router->getURL("multiple-select.css") . '" />
 
         <div class="form-group">
         <select class="select" multiple="multiple" name="tag[]">';
@@ -109,9 +103,9 @@ class Controller_connected extends Controller {
         $message.= '</select>
         </div>
 
-        <script src="' . $this->router->getURL("js/jquery.min.js"). '"></script>
-        <script src="' . $this->router->getURL("js/multiple-select.js"). '"></script>
-        <script src="' . $this->router->getURL("js/form.js"). '"></script>
+        <script src="' . $this->router->getURL("js/jquery.min.js") . '"></script>
+        <script src="' . $this->router->getURL("js/multiple-select.js") . '"></script>
+        <script src="' . $this->router->getURL("js/form.js") . '"></script>
 
 
         <br></td></tr>
@@ -136,7 +130,7 @@ class Controller_connected extends Controller {
 
     public function votepositif($idphoto) {
         $idphoto = addslashes($idphoto);
-        if (!$this->bdd_vote->exists($_SESSION['session_email'], $idphoto)){
+        if (!$this->bdd_vote->exists($_SESSION['session_email'], $idphoto)) {
             $vote = new Vote("1", $_SESSION['session_email'], $idphoto, 1);
             $this->bdd_vote->create($vote);
             $this->view->makePage($message);
@@ -147,7 +141,7 @@ class Controller_connected extends Controller {
 
     public function votenegatif($idphoto) {
         $idphoto = addslashes($idphoto);
-        if (!$this->bdd_vote->exists($_SESSION['session_email'], $idphoto)){
+        if (!$this->bdd_vote->exists($_SESSION['session_email'], $idphoto)) {
             $vote = new Vote("1", $_SESSION['session_email'], $idphoto, 0);
             $this->bdd_vote->create($vote);
             $this->view->makePage($message);

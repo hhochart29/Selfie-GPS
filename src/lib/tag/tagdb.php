@@ -38,7 +38,7 @@ class TagDB implements ItagDB {
         $this->retrieveTagReq->bindValue(":idtag", $idtag);
         $this->retrieveTagReq->execute();
         if ($row = $this->retrieveTagReq->fetch(PDO::FETCH_ASSOC))
-        return new Tag($row["idtag"], $row["description"]);
+            return new Tag($row["idtag"], $row["description"]);
         throw new Exception("Aucun tag avec cet ID : $idtag");
     }
 
@@ -46,15 +46,15 @@ class TagDB implements ItagDB {
         $this->retrieveAllTagReq->execute();
         $res = array();
         while ($row = $this->retrieveAllTagReq->fetch(PDO::FETCH_ASSOC))
-        $res[] = new Tag($row["idtag"], $row["description"]);
+            $res[] = new Tag($row["idtag"], $row["description"]);
         return $res;
     }
 
-    public function retrieveDescTag($idtag){
+    public function retrieveDescTag($idtag) {
         $this->retrieveDescTagReq->bindValue(":idtag", $idtag);
         $this->retrieveDescTagReq->execute();
         if ($row = $this->retrieveDescTagReq->fetch(PDO::FETCH_ASSOC))
-        return $row["description"];
+            return $row["description"];
         throw new Exception("Aucune description n'existe pour ce tag : $idtag");
     }
 

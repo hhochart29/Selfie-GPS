@@ -31,10 +31,10 @@ class PhotoDB implements IphotoDB {
         $query = "SELECT * FROM `" . $this->table . "` WHERE idphoto=:idphoto";
         $this->retrievePhotoReq = $this->pdo->prepare($query);
 
-        $query = "SELECT * FROM `" . $this->table . "` ORDER BY date DESC" ;
+        $query = "SELECT * FROM `" . $this->table . "` ORDER BY date DESC";
         $this->retrieveAllPhotoReq = $this->pdo->prepare($query);
 
-        $query = "SELECT * FROM `" . $this->table . "` WHERE email=:email" ;
+        $query = "SELECT * FROM `" . $this->table . "` WHERE email=:email";
         $this->retrieveAllPhotoByEmailReq = $this->pdo->prepare($query);
 
         $query = "DELETE FROM `" . $this->table . "` WHERE idphoto=:idphoto";
@@ -95,11 +95,12 @@ class PhotoDB implements IphotoDB {
         $this->createPhotoReq->execute();
     }
 
-     public function create2tag($idphoto, $idtag) {
+    public function create2tag($idphoto, $idtag) {
         $this->createCaractReq->bindValue(":idphoto", $idphoto);
         $this->createCaractReq->bindValue(":idtag", $idtag);
         $this->createCaractReq->execute();
     }
+
     // Retrieve methods ====================================================================
     //retrieve photo
     public function retrieve($idphoto) {
@@ -107,8 +108,8 @@ class PhotoDB implements IphotoDB {
         $this->retrievePhotoReq->execute();
         $tag = array();
         if ($row = $this->retrievePhotoReq->fetch(PDO::FETCH_ASSOC))
-            $tag[] = $this->retrieveCaractTagReq ($row["idphoto"]);
-            return new Photo($row["idphoto"], $row["fichier"], $row["geo_lat"], $row["geo_long"], $row["titre"], $row["description"], $row["date"], $row["email"], $tag);
+            $tag[] = $this->retrieveCaractTagReq($row["idphoto"]);
+        return new Photo($row["idphoto"], $row["fichier"], $row["geo_lat"], $row["geo_long"], $row["titre"], $row["description"], $row["date"], $row["email"], $tag);
         throw new Exception("Aucune photo n'existe avec cet ID : $idphoto");
     }
 
@@ -131,7 +132,7 @@ class PhotoDB implements IphotoDB {
         $this->retrieveAllPhotoReq->execute();
         $res = array();
         while ($row = $this->retrieveAllPhotoReq->fetch(PDO::FETCH_ASSOC)) {
-            $tag = $this->retrieveCaractTag ($row["idphoto"]);
+            $tag = $this->retrieveCaractTag($row["idphoto"]);
             $res[] = new Photo($row["idphoto"], $row["fichier"], $row["geo_lat"], $row["geo_long"], $row["titre"], $row["description"], $row["date"], $row["email"], $tag);
         }
         return $res;
@@ -142,7 +143,7 @@ class PhotoDB implements IphotoDB {
         $this->retrieveAllPhotoByEmailReq->execute();
         $res = array();
         while ($row = $this->retrieveAllPhotoByEmailReq->fetch(PDO::FETCH_ASSOC)) {
-            $tag = $this->retrieveCaractTag ($row["idphoto"]);
+            $tag = $this->retrieveCaractTag($row["idphoto"]);
             $res[] = new Photo($row["idphoto"], $row["fichier"], $row["geo_lat"], $row["geo_long"], $row["titre"], $row["description"], $row["date"], $row["email"], $tag);
         }
         return $res;
@@ -153,7 +154,7 @@ class PhotoDB implements IphotoDB {
         $this->retrievePhotoByTagReq->execute();
         $res = array();
         while ($row = $this->retrievePhotoByTagReq->fetch(PDO::FETCH_ASSOC)) {
-            $tag = $this->retrieveCaractTag ($row["idphoto"]);
+            $tag = $this->retrieveCaractTag($row["idphoto"]);
             $res[] = new Photo($row["idphoto"], $row["fichier"], $row["geo_lat"], $row["geo_long"], $row["titre"], $row["description"], $row["date"], $row["email"], $tag);
         }
         return $res;
@@ -169,11 +170,12 @@ class PhotoDB implements IphotoDB {
     public function retrieveCaractTag($idphoto) {
         $this->retrieveCaractTagReq->bindValue(":idphoto", $idphoto);
         $this->retrieveCaractTagReq->execute();
-       $res = array();
+        $res = array();
         while ($row = $this->retrieveCaractTagReq->fetch(PDO::FETCH_ASSOC))
             $res[] = $row["idtag"];
         return $res;
     }
+
     // Delete methods =======================================================================
     public function deleteTable() {
         $this->pdo->exec("DROP TABLE IF EXISTS `" . $this->table . "`");

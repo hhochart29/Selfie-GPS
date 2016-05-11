@@ -14,8 +14,9 @@
         <nav id="menu">
             <ul>
                 <?php
-                    foreach ($menu as $adresse => $texte) {
-                    echo '<a href="' . $adresse . '"><li>' . $texte . '</li></a>';}
+                foreach ($menu as $adresse => $texte) {
+                    echo '<a href="' . $adresse . '"><li>' . $texte . '</li></a>';
+                }
                 ?>
             </ul>
         </nav>
@@ -23,8 +24,11 @@
         <footer>
             <div id="menufooter">
                 <ul>
-                    <?php foreach ($menu as $adresse => $texte) {
-                        echo '<li><a href="' . $adresse . '">' . $texte . '</a></li>';} ?>
+                    <?php
+                    foreach ($menu as $adresse => $texte) {
+                        echo '<li><a href="' . $adresse . '">' . $texte . '</a></li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </footer>

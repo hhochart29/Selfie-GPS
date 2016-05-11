@@ -8,7 +8,7 @@ class Controller_admin extends Controller_connected {
         Controller::__construct($view, $router);
     }
 
-    public function administration(){
+    public function administration() {
         $photos = $this->bdd_photo->retrieveAll();
         $message = 'Administration des photos
         <table class="tableadmin">
@@ -26,14 +26,14 @@ class Controller_admin extends Controller_connected {
             $votepositif = 0;
             $votenegatif = 0;
             foreach ($votes as $vote) {
-                if ($vote == true){
+                if ($vote == true) {
                     $votepositif++;
                 } else {
                     $votenegatif++;
                 }
             }
-            if (sizeof ($votes) != 0) {
-                $pourcentagevote = $votepositif * 100 / sizeof ($votes);
+            if (sizeof($votes) != 0) {
+                $pourcentagevote = $votepositif * 100 / sizeof($votes);
             } else {
                 $pourcentagevote = 100;
             }
@@ -48,27 +48,27 @@ class Controller_admin extends Controller_connected {
             <div class="adminprogresslike" style="width:' . $pourcentagevote . '%"></div></div>
             <div class="adminthumb">
             <div class="adminthumbsup"';
-            $message.='"><img src="' . $this->router->getImageURL("thumb-up.png") . '">' .  $votepositif .'</div>
+            $message.='"><img src="' . $this->router->getImageURL("thumb-up.png") . '">' . $votepositif . '</div>
             <div class="adminthumbsdown"';
-            $message.='"><img src="' . $this->router->getImageURL("thumb-down.png") . '">' .  $votenegatif .'</div>
+            $message.='"><img src="' . $this->router->getImageURL("thumb-down.png") . '">' . $votenegatif . '</div>
             </div>
             </td>
             <td class="tdadminemail">' . $photo->getEmail() . '</td>
             <td class="tdadmindate">' . $photo->getDate() . '</td>
-            <td class="tdadminsuppr"><a href="'.$this->router->getAdministrationSupprURL().'/'.$photo->getIdphoto().'" />Supprimer</a></td>';
-            $message.= '<td class="tdadminban"><a href="'.$this->router->getAdministrationBannURL().'/'.$photo->getEmail().'" />Bannir</a></td>
+            <td class="tdadminsuppr"><a href="' . $this->router->getAdministrationSupprURL() . '/' . $photo->getIdphoto() . '" />Supprimer</a></td>';
+            $message.= '<td class="tdadminban"><a href="' . $this->router->getAdministrationBannURL() . '/' . $photo->getEmail() . '" />Bannir</a></td>
             </tr>';
         }
         $message.= '</table>';
         $this->view->makePage($message);
     }
 
-    public function supprimerPhoto($idphoto){
+    public function supprimerPhoto($idphoto) {
         $idphoto = addslashes($idphoto);
         if ($this->bdd_photo->existsId($idphoto)) {
             $nomfichier = $this->bdd_photo->retrievenomphoto($idphoto);
-            if (file_exists ('./upload/'.$nomfichier)) {
-                unlink('./upload/'.$nomfichier);
+            if (file_exists('./upload/' . $nomfichier)) {
+                unlink('./upload/' . $nomfichier);
             }
             $this->bdd_vote->deleteVote($idphoto);
             $this->bdd_photo->deleteTag($idphoto);
@@ -77,16 +77,16 @@ class Controller_admin extends Controller_connected {
         $this->router->redirect($this->router->getAdministrationURL());
     }
 
-    public function bannirUtilisateur($email){
+    public function bannirUtilisateur($email) {
         $email = addslashes($email);
         if ($this->bdd_utilisateur->exists($email)) {
             $utilisateur = $this->bdd_utilisateur->retrieve($email);
             if ($utilisateur->getNiveau() != 'admin') {
-                $this->bdd_utilisateur->updateniveau('banni',$email);
+                $this->bdd_utilisateur->updateniveau('banni', $email);
                 $photoemail = $this->bdd_photo->retrieveAllByEmail($email);
                 foreach ($photoemail as $photo) {
-                    if (file_exists ('./upload/'.$photo->getFichier())) {
-                        unlink('./upload/'.$photo->getFichier());
+                    if (file_exists('./upload/' . $photo->getFichier())) {
+                        unlink('./upload/' . $photo->getFichier());
                     }
                     $this->bdd_vote->deleteVote($photo->getIdphoto());
                     $this->bdd_photo->deleteTag($photo->getIdphoto());

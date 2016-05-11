@@ -26,14 +26,15 @@ class Controller {
     }
 
     public function accueil() {
-        $message = "<p>Bienvenue sur le site 'Selfie-GPS'</p><br>Consultez les photos, ou connectez-vous pour en mettre en ligne.";
+        $message = "<div class='accueil'><p>Bienvenue sur le site 'Selfie-GPS'</p><br>Consultez les photos, ou connectez-vous pour en mettre en ligne.</div>";
         $this->view->makePage($message);
     }
 
     public function gallerie() {
-        if (isset($_POST['submit'])) {
-            if (isset($_POST['tag']) && !empty($_POST['tag'])) {
-                $photos = $this->bdd_photo->retrievePhotobytag($_POST['tag']);
+        if (isset($_POST['tag'])) {
+            if (!empty($_POST['tag'])) {
+                $tagform = addslashes($_POST['tag']);
+                $photos = $this->bdd_photo->retrievePhotobytag($tagform);
                 $default = false;
             } else {
                 $default = true;
@@ -44,38 +45,37 @@ class Controller {
         if ($default) {
             $photos = $this->bdd_photo->retrieveAll();
         }
-        $message ='Gallerie de photos';
+        $message = 'Gallerie de photos';
         $message.='
-        <script src="' . $this->router->getURL("js/vote.js"). '"></script>
-        <form method="POST">
-        <fieldset>
-        <table id="tablerechercher">
-        <tr>
-        <td>Recherche par tag : </td>
-        <td><div class="form-group"><select class="select" name="tag">';
+        <script src="' . $this->router->getURL("js/vote.js") . '"></script>
+        <form method="POST" id="formrecherche">
+			<fieldset>
+				<table id="tablerechercher">
+					<tr>
+						<td>Recherche par tag : </td>
+						<td><div class="form-group"><select class="select" name="tag">';
         $tags = $this->bdd_tag->retrieveAll();
         $message.= '<option></option>';
         foreach ($tags as $tag) {
-            $message.= '<option value="'.$tag->getIdtag().'" '.((isset($_POST["tag"]))?(($tag->getIdtag() == $_POST["tag"])?'selected' :null):null).'>'. $tag->getDescription() . '</option>';
+            $message.= '<option id="' . $tag->getIdtag() . '" value="' . $tag->getIdtag() . '" ' . ((isset($_POST["tag"])) ? (($tag->getIdtag() == $_POST["tag"]) ? 'selected' : null) : null) . '>' . $tag->getDescription() . '</option>';
         }
         $message.='</select></td>
-        </tr>
-        </table>
-        <input type="submit" name="submit" value="Rechercher" class="submit"/>
-        </fieldset>
+					</tr>
+				</table>
+				<input type="submit" name="rechercher" value="Rechercher" class="submit"/>
+			</fieldset>
         </form>
-        <a href="'. $this->router->GetGallerieURL() .'" class="submit">Réinitialiser</a>
+        <a href="' . $this->router->GetGallerieURL() . '" class="submit">Réinitialiser</a>
         ';
-        if (sizeof($photos)!= 0){
-            if (isset($_POST['tag']) && !empty($_POST['tag'])) {
-                $idtagpost = $_POST['tag'];
-                $desctag = $this->bdd_tag->retrieveDescTag($idtagpost);
-                $message.='<p class="retour">Vous avez recherchés les photos avec le tag : '. $desctag . ' </p>';
+        if (sizeof($photos) != 0) {
+            if (isset($tagform)) {
+                $desctag = $this->bdd_tag->retrieveDescTag($tagform);
+                $message.='<p class="retour">Vous avez recherchés les photos avec le tag : ' . $desctag . ' </p>';
             }
             foreach ($photos as $photo) {
                 $votes = $this->bdd_vote->retrieve($photo->getIdphoto());
-                if (isset($_SESSION['session_email'])){
-                    $votesingle = $this->bdd_vote->retrievesingle($photo->getIdphoto(),$_SESSION['session_email']);
+                if (isset($_SESSION['session_email'])) {
+                    $votesingle = $this->bdd_vote->retrievesingle($photo->getIdphoto(), $_SESSION['session_email']);
                     $existant = $this->bdd_vote->exists($_SESSION['session_email'], $photo->getIdphoto());
                 } else {
                     $votesingle = 0;
@@ -84,14 +84,14 @@ class Controller {
                 $votepositif = 0;
                 $votenegatif = 0;
                 foreach ($votes as $vote) {
-                    if ($vote == true){
+                    if ($vote == true) {
                         $votepositif++;
                     } else {
                         $votenegatif++;
                     }
                 }
-                if (sizeof ($votes) != 0) {
-                    $pourcentagevote = $votepositif * 100 / sizeof ($votes);
+                if (sizeof($votes) != 0) {
+                    $pourcentagevote = $votepositif * 100 / sizeof($votes);
                 } else {
                     $pourcentagevote = 100;
                 }
@@ -101,32 +101,32 @@ class Controller {
                 <div class="galtitre">' . $photo->getTitre() . '</div>
                 <div class="galdesc">' . $photo->getDescription() . '</div>
                 <div class="galphoto">
-                    <a href="#'.$photo->getIdphoto().'" class="photosmall"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a>
-                    <a href="#_" class="lightbox" id="'.$photo->getIdphoto().'"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a></div>
+                <a href="#' . $photo->getIdphoto() . '" class="photosmall"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a>
+                <a href="#_" class="lightbox" id="' . $photo->getIdphoto() . '"><img src="' . $this->router->getPhotosURL() . $photo->getFichier() . '"/></a></div>
                 <div class="vote">
                 <div class="votebar">
                 <div class="progress">
-                <div class="progresslike" id="b_'.$photo->getIdphoto().'" style="width:' . $pourcentagevote . '%"></div>
+                <div class="progresslike" id="b_' . $photo->getIdphoto() . '" style="width:' . $pourcentagevote . '%"></div>
                 </div>
                 </div>
                 <div class="thumb">
                 <div class="thumbsup"';
                 if (isset($_SESSION['session_email'])) {
-                    $message .= 'onclick="fonctionvote('.$photo->getIdphoto().', 1)"';
+                    $message .= 'onclick="fonctionvote(' . $photo->getIdphoto() . ', 1)"';
                 }
-                $message.='"><img src="' . $this->router->getImageURL("thumb-up.png") . '"><span id="p_'.$photo->getIdphoto().'" '.(($votesingle==1)?'style="color:green;"':null).'>' .  $votepositif .'</span></div>
+                $message.='><img src="' . $this->router->getImageURL("thumb-up.png") . '"><span id="p_' . $photo->getIdphoto() . '" ' . (($votesingle == 1) ? 'style="color:green;"' : null) . '>' . $votepositif . '</span></div>
                 <div class="thumbsdown"';
                 if (isset($_SESSION['session_email'])) {
-                    $message .= 'onclick="fonctionvote('.$photo->getIdphoto().', 0)"';
+                    $message .= 'onclick="fonctionvote(' . $photo->getIdphoto() . ', 0)"';
                 }
-                $message.='"><img src="' . $this->router->getImageURL("thumb-down.png") . '"><span id="n_'.$photo->getIdphoto().'" '.(($votesingle==0 && $existant)?'style="color:red;"':null).'>' .  $votenegatif .'</span></div>
+                $message.='><img src="' . $this->router->getImageURL("thumb-down.png") . '"><span id="n_' . $photo->getIdphoto() . '" ' . (($votesingle == 0 && $existant) ? 'style="color:red;"' : null) . '>' . $votenegatif . '</span></div>
                 </div>
                 </div>
                 <div class="galtagcontainer">';
 
-                foreach ($photo->getTag() as $tag){
+                foreach ($photo->getTag() as $tag) {
                     $tags = $this->bdd_tag->retrieve($tag);
-                    $message.='<div class="galtag">'.$tags->getDescription().'</div>';
+                    $message.='<div class="galtag"><a href="javascript:void(0)" onclick="document.getElementById(' . $tags->getIdTag() . ').selected = \'selected\';document.getElementById(\'formrecherche\').submit();">' . $tags->getDescription() . '</a></div>';
                 }
                 $message.= '</div><div id="galinfos">Prise le : <b>' . $photo->getDate() . '</b> par : <b>' . $photo->getEmail() . '</b></div></div></div></div>';
             }
@@ -143,23 +143,23 @@ class Controller {
         $message = '
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <script type="text/javascript">
-        var nombrephotos = '.$nbphotos.';
+        var nombrephotos = ' . $nbphotos . ';
         var photos = new Array(';
-        foreach($photos as $photo) {
-            $message .= '["'.$photo->getFichier().'", "'.$photo->getTitre().'", "'.$photo->getDescription().'", "'.$photo->getGeo_lat().'" ,"'.$photo->getGeo_long().'", "'.$photo->getEmail().'"]';
-            if($virgule != $nbphotos) {
+        foreach ($photos as $photo) {
+            $message .= '["' . $photo->getFichier() . '", "' . $photo->getTitre() . '", "' . $photo->getDescription() . '", "' . $photo->getGeo_lat() . '" ,"' . $photo->getGeo_long() . '", "' . $photo->getEmail() . '"]';
+            if ($virgule != $nbphotos) {
                 $message .= ',';
             }
             $virgule++;
         }
         $message .= ');
         </script>
-        <script src="'.$this->router->getURL("js/map.js").'"></script>
+        <script src="' . $this->router->getURL("js/map.js") . '"></script>
         <script type="text/javascript">google.maps.event.addDomListener(window, \'load\', initialisation);</script>
         <div id="carte"></div>';
         $this->view->makePage($message);
-
     }
+
 }
 
 ?>

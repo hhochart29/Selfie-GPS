@@ -15,8 +15,8 @@ class Controller_connexion extends Controller {
                 if ($this->bdd_utilisateur->isValid($email, $password)) {
                     $utilisateur = $this->bdd_utilisateur->retrieve($email);
                     if ($utilisateur->getNiveau($email) != 'banni') {
-                    $_SESSION['session_email'] = $email;
-                    $this->router->redirect($this->router->getAccueilURL());
+                        $_SESSION['session_email'] = $email;
+                        $this->router->redirect($this->router->getAccueilURL());
                     } else {
                         $retour = "Vous êtes banni";
                     }
@@ -36,7 +36,7 @@ class Controller_connexion extends Controller {
         $message.='<a class="submit" href=' . $this->router->getInscriptionURL() . '>Inscription</a></form>';
         $this->view->makePage($message);
         if ($retour != false) {
-            $message.= '<p class="retour">'.$retour.'<p>';
+            $message.= '<p class="retour">' . $retour . '<p>';
         }
         $this->view->makePage($message);
     }
@@ -73,12 +73,12 @@ class Controller_connexion extends Controller {
             $email = "";
         }
         $message = '<form method="POST" action="#" class="formulaire">
-        <div class="champ"><input type="text" name="email" placeholder="Email" value="'.$email.'" />
+        <div class="champ"><input type="text" name="email" placeholder="Email" value="' . $email . '" />
         <input type="password" name="password" placeholder="mot de passe" />
         <input type="password" name="password2" placeholder="confirmer mot de passe" /></div>
         <input type="submit" name="inscription" Value="S\'inscrire" class="submit" />
         </form>';
-        $message.= '<p class="retour">'.$retour.'<p>';
+        $message.= '<p class="retour">' . $retour . '<p>';
         $this->view->makePage($message);
     }
 

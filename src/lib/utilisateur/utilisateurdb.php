@@ -27,7 +27,7 @@ class UtilisateurDB implements IUtilisateurDB {
         $query = "SELECT * FROM `" . $this->table . "` WHERE " . $clause;
         $this->checkMotdepasseReq = $this->pdo->prepare($query);
 
-        $query = "UPDATE ".$this->table." SET niveau=:niveau WHERE email=:email";
+        $query = "UPDATE " . $this->table . " SET niveau=:niveau WHERE email=:email";
         $this->updateNiveauReq = $this->pdo->prepare($query);
 
         $query = "DELETE FROM `" . $this->table . "` WHERE email=:email";
