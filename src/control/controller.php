@@ -126,7 +126,7 @@ class Controller {
 
                 foreach ($photo->getTag() as $tag){
                     $tags = $this->bdd_tag->retrieve($tag);
-                    $message.='<div class="galtag"><a href="'. $this->router->getRechercherURL($tags->getIdtag()) .'" class="galtaglien">' . $tags->getDescription(). '</a></div>';
+                    $message.='<div class="galtag">'.$tags->getDescription().'</div>';
                 }
                 $message.= '</div><div id="galinfos">Prise le : <b>' . $photo->getDate() . '</b> par : <b>' . $photo->getEmail() . '</b></div></div></div></div>';
             }
